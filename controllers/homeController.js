@@ -100,12 +100,10 @@ const public_Register_post = async (req, res) => {
   // Create an object to store validation errors
   const errors = {};
 
-
-  
-  // Validate verification code
-  if (req.session.verificationCode !== parseInt(verificationCode)) {
-    errors.verificationCode = '- كود التفعيل غير صحيح';
-  }
+  // // Validate verification code
+  // if (req.session.verificationCode !== parseInt(verificationCode)) {
+  //   errors.verificationCode = '- كود التفعيل غير صحيح';
+  // }
 
   // Check if the password is at least 7 characters long
   if (Password.length < 7) {
@@ -163,17 +161,17 @@ const public_Register_post = async (req, res) => {
   let videosInfo = [];
 
   if (Grade === 'Grade1') {
-    await User.findOne({ Grade: Grade, Code: 905477 }).then((result) => {
+    await User.findOne({ Grade: Grade, Code: 743673 }).then((result) => {
       quizesInfo = result.quizesInfo;
       videosInfo = result.videosInfo;
     });
   } else if (Grade === 'Grade2') {
-    await User.findOne({ Grade: Grade, Code: 844488 }).then((result) => {
+    await User.findOne({ Grade: Grade, Code: 927712 }).then((result) => {
       quizesInfo = result.quizesInfo;
       videosInfo = result.videosInfo;
     });
   } else if (Grade === 'Grade3') {
-    await User.findOne({ Grade: Grade, Code: 716589 }).then((result) => {
+    await User.findOne({ Grade: Grade, Code: 711512 }).then((result) => {
       quizesInfo = result.quizesInfo;
       videosInfo = result.videosInfo;
     });
