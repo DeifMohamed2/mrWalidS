@@ -357,7 +357,7 @@ header {
 }
 
 .header__right-image  img{
-  width: 24rem;
+  width: 30rem;
 
   border-radius: 50%;
 }     
@@ -860,7 +860,7 @@ footer ul li a:hover {
 /* ======================== MEDIA QUERIES (PHONES) ======================= */
 @media screen and (max-width: 800px) {
   .header__right-image  img{
-    width: 30rem;
+    width: 35rem;
   
     border-radius: 50%;
   }  
@@ -1140,7 +1140,7 @@ section.featuers ul.timeline li:nth-child(even) .timebox h4 span {
     margin-top: 2rem;
   }
   .header__right-image  img{
-    width: 20rem;
+    width: 25rem;
   
     border-radius: 50%;
   } 
@@ -1154,7 +1154,7 @@ section.featuers ul.timeline li:nth-child(even) .timebox h4 span {
     margin-top: 2rem;
   }
   .header__right-image  img{
-    width: 15rem;
+    width: 20rem;
   
     border-radius: 50%;
   } 
