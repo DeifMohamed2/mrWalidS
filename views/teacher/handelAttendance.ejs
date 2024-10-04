@@ -117,22 +117,14 @@
                                        <option value="Grade3">الصف الثالث الثانوي</option>
 
                                    </select>
-                                   <select name="centerName" class="Grade" id="centerName" required>
+                                    <select name="centerName" class="Grade" id="centerName" required>
                                        <option value="" selected>اختر اسم السنتر </option>
-                                       <option value="centerAlpha">  سنتر الفا</option>
-                                       <option value="centerX">سنتر X   </option>
-                                       <option value="centerNour">  سنتر النور</option>
-
+                                       <option value="PhysicsAcademy">  البسمله</option>
+                                   
                                    </select>
-                                   <select name="groupTime" class="Grade" id="GroupTime" required>
-                                       <option value="" selected>مجموعه   </option>
-                                     
-                                           <option value="group1">المجموعه الاولي</option>
-                                           <option value="group2">المجموعه الثانيه</option>
-                                           <option value="group3">المجموعه الثالثه</option>
-
-                                   </select>
-
+                                 <select name="groupTime" class="Grade" id="GroupTime" required>
+                                <option value="" selected>مجموعه</option>
+                               </select>
 
 
                                    <select name="Dates" class="Grade" id="Dates">
@@ -196,7 +188,44 @@
     <script src="/assest/bootstrap.bundle.min.js"></script>
     <script src="/assest/bootstrap.min.js"></script>
 
+<script>
+const groupTimes = {
+   PhysicsAcademy: [
+    { value: 'group1', text: 'الأحد - 8 - 10' },
+    { value: 'group2', text: 'الأحد - 10 - 12' },
+    { value: 'group3', text: 'الأحد - 12 - 2' },
+    { value: 'group4', text: 'الأحد - 4 - 6' },
+    { value: 'group5', text: 'الثلاثاء - 8 - 10' },
+    { value: 'group6', text: 'الثلاثاء - 10 - 12' },
+    { value: 'group7', text: 'الثلاثاء - 12 - 2' },
+    { value: 'group8', text: 'الثلاثاء - 4 - 6' },
+    { value: 'group9', text: 'الخميس - 8 - 10' },
+    { value: 'group10', text: 'الخميس - 10 - 12' },
+    { value: 'group11', text: 'الخميس - 12 - 2' },
+    { value: 'group12', text: 'الخميس - 4 - 6' }
+]
 
+
+};
+// Handle center name change
+document.getElementById('centerName').addEventListener('change', function() {
+    const selectedCenter = this.value;
+    const groupTime = document.getElementById('GroupTime');
+
+    // Clear existing options
+    groupTime.innerHTML = '<option value="" selected>مجموعه</option>';
+
+    // Add new options based on the selected center
+    if (groupTimes[selectedCenter]) {
+        groupTimes[selectedCenter].forEach(group => {
+            const option = document.createElement('option');
+            option.value = group.value;
+            option.textContent = group.text;
+            groupTime.appendChild(option);
+        });
+    }
+});
+</script>
 
     <script>
         const getAttendeesDataBtn = document.getElementById('getAttendeesDataBtn');

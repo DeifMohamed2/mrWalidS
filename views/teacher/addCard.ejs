@@ -172,17 +172,10 @@
                                    </select>
                                    <select name="centerName" class="Grade" id="centerName" required>
                                        <option value="" selected>اختر اسم السنتر </option>
-                                       <option value="centerBasmala">  البسمله</option>
-                                       <option value="centerDHL">DHL </option>
-                                       <option value="centerDarElsa3da">   دار السعاده</option>
-                                       <option value="centerFutureSoft">  Future Soft</option>
-                                       <option value="centerInfinity"> Infinity</option>
-                                       <option value="centerElra3y"> الراعي</option>
-                                       <option value="centerNewFuture"> New Future</option>
-                                       <option value="centerHarverd"> هارفرد </option>
-                                       <option value="centerA1"> A1 </option>
-
+                                       <option value="PhysicsAcademy">  Physics Academy</option>
+                                
                                    </select>
+                                   
                                  <select name="groupTime" class="Grade" id="groupTime" required>
                                 <option value="" selected>مجموعه</option>
                                </select>
@@ -267,42 +260,22 @@
 <script>
 // Group times for each center
 const groupTimes = {
-    centerBasmala: [
-        { value: 'group1', text: 'السبت - 10  - 12 ' },
-        { value: 'group2', text: 'السبت - 12  - 2 ' }
-    ],
-    centerDHL: [
-        { value: 'group1', text: 'السبت - 3  - 5 ' },
-        { value: 'group2', text: 'السبت - 5  - 7 ' }
-    ],
-    centerDarElsa3da: [
-        { value: 'group1', text: 'الاحد - 3:30  - 5:30 ' },
-        { value: 'group2', text: 'الاثنين - 5  - 7 ' }
-    ],
-    centerFutureSoft: [
-        { value: 'group1', text: 'الاحد - 6  - 8 ' },
-        { value: 'group2', text: 'الخميس - 7  - 9 ' }
-    ],
-    centerInfinity: [
-        { value: 'group1', text: 'الاثنين - 7  - 9 ' }
-    ],
-    centerElra3y: [
-        { value: 'group1', text: 'الثلاثاء - 3  - 5 ' },
-        { value: 'group2', text: 'الاربعاء - 5:30  - 7:30 ' },
-        { value: 'group3', text: 'الاربعاء - 7:30  - 9:30 ' }
-    ],
-    centerNewFuture: [
-        { value: 'group1', text: 'الثلاثاء - 5  - 7 ' },
-        { value: 'group2', text: 'الثلاثاء - 7  - 9 ' }
-    ],
-    centerHarverd: [
-        { value: 'group1', text: 'الخميس - 3  - 5 ' },
-        { value: 'group2', text: 'الخميس - 5  - 7 ' }
-    ],
-    centerA1: [
-        { value: 'group1', text: 'الجمعه - 3  - 5 ' },
-        { value: 'group2', text: '7 - 5  - 5 ' }
-    ]
+   PhysicsAcademy: [
+    { value: 'group1', text: 'الأحد - 8 - 10' },
+    { value: 'group2', text: 'الأحد - 10 - 12' },
+    { value: 'group3', text: 'الأحد - 12 - 2' },
+    { value: 'group4', text: 'الأحد - 4 - 6' },
+    { value: 'group5', text: 'الثلاثاء - 8 - 10' },
+    { value: 'group6', text: 'الثلاثاء - 10 - 12' },
+    { value: 'group7', text: 'الثلاثاء - 12 - 2' },
+    { value: 'group8', text: 'الثلاثاء - 4 - 6' },
+    { value: 'group9', text: 'الخميس - 8 - 10' },
+    { value: 'group10', text: 'الخميس - 10 - 12' },
+    { value: 'group11', text: 'الخميس - 12 - 2' },
+    { value: 'group12', text: 'الخميس - 4 - 6' }
+]
+
+
 };
 
 // Handle center name change
