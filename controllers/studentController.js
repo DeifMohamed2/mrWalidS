@@ -799,14 +799,22 @@ const quizWillStart = async (req, res) => {
   try {
     const quizId = req.params.quizId;
     const quiz = await Quiz.findById(quizId);
+
+    // Check if quiz and timeOfQuiz exist
+    if (!quiz || !quiz.timeOfQuiz || quiz.timeOfQuiz <= 0) {
+      throw new Error('Invalid quiz or quiz duration');
+    }
+
     const quizUser = req.userData.quizesInfo.find(
       (q) => q._id.toString() === quiz._id.toString()
     );
 
     const durationInMinutes = quiz.timeOfQuiz;
 
+    // Calculate endTime
     const endTime = new Date(Date.now() + durationInMinutes * 60000);
     console.log(endTime, durationInMinutes);
+
     if (!quizUser.endTime) {
       console.log(endTime, durationInMinutes);
       await User.findOneAndUpdate(
@@ -817,16 +825,22 @@ const quizWillStart = async (req, res) => {
             'quizesInfo.$.inProgress': true,
           },
         }
-      ).then((result) => {
-        res.redirect(`/student/quizStart/${quizId}?qNumber=1`);
-      });
+      )
+        .then((result) => {
+          res.redirect(`/student/quizStart/${quizId}?qNumber=1`);
+        })
+        .catch((err) => {
+          throw new Error('Failed to update user data: ' + err.message);
+        });
     } else {
       res.redirect(`/student/quizStart/${quizId}?qNumber=1`);
     }
   } catch (error) {
+    console.error(error); // Log the error for debugging
     res.send(error.message);
   }
 };
+
 
 const escapeSpecialCharacters = (text) => {
   try {
