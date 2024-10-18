@@ -755,6 +755,7 @@ const buyQuiz = async (req, res) => {
 };
 // ================== END Exams  ====================== //
 
+
 // ================== quiz  ====================== //
 const quiz_get = async (req, res) => {
   try {
@@ -772,7 +773,7 @@ const quiz_get = async (req, res) => {
     if (
       !quizUser ||
       !quiz.permissionToShow ||
-      !quiz.isQuizActive ||
+   
       (quizUser.isEnterd && !quizUser.inProgress)
     ) {
       return res.redirect('/student/exams');
@@ -799,24 +800,16 @@ const quizWillStart = async (req, res) => {
   try {
     const quizId = req.params.quizId;
     const quiz = await Quiz.findById(quizId);
-
-    // Check if quiz and timeOfQuiz exist
-    if (!quiz || !quiz.timeOfQuiz || quiz.timeOfQuiz <= 0) {
-      throw new Error('Invalid quiz or quiz duration');
-    }
-
     const quizUser = req.userData.quizesInfo.find(
       (q) => q._id.toString() === quiz._id.toString()
     );
 
     const durationInMinutes = quiz.timeOfQuiz;
 
-    // Calculate endTime
     const endTime = new Date(Date.now() + durationInMinutes * 60000);
     console.log(endTime, durationInMinutes);
-
     if (!quizUser.endTime) {
-      console.log(endTime, durationInMinutes);
+      console.log(quizUser.endTime);
       await User.findOneAndUpdate(
         { _id: req.userData._id, 'quizesInfo._id': quiz._id },
         {
@@ -825,22 +818,17 @@ const quizWillStart = async (req, res) => {
             'quizesInfo.$.inProgress': true,
           },
         }
-      )
-        .then((result) => {
-          res.redirect(`/student/quizStart/${quizId}?qNumber=1`);
-        })
-        .catch((err) => {
-          throw new Error('Failed to update user data: ' + err.message);
-        });
+      ).then((result) => {
+        console.log(result);
+        res.redirect(`/student/quizStart/${quizId}?qNumber=1`);
+      });
     } else {
       res.redirect(`/student/quizStart/${quizId}?qNumber=1`);
     }
   } catch (error) {
-    console.error(error); // Log the error for debugging
     res.send(error.message);
   }
 };
-
 
 const escapeSpecialCharacters = (text) => {
   try {
@@ -873,7 +861,6 @@ const quiz_start = async (req, res) => {
       !quiz ||
       !userQuizInfo ||
       !quiz.permissionToShow ||
-      !quiz.isQuizActive ||
       (userQuizInfo.isEnterd && !userQuizInfo.inProgress)
     ) {
       return res.redirect('/student/exams');
@@ -934,11 +921,40 @@ const quizFinish = async (req, res) => {
     let answers = quizData.answers;
     const score = quizData.score;
 
+    // Calculate the percentage score
+    const scorePercentage = (score / quiz.questionsCount) * 100;
+
+    // If user has already entered and quiz is not in progress, redirect
     if (userQuizInfo.isEnterd && !userQuizInfo.inProgress) {
       return res.redirect('/student/exams');
     }
 
-    // Update user's quiz info
+    // If the score is less than 60%, don't update quiz info, allow retry
+    if (scorePercentage < 60) {
+      console.log('Score is less than 60%');  
+          User.findOneAndUpdate(
+            { _id: req.userData._id, 'quizesInfo._id': quizObjId },
+            {
+              $set: {
+                
+                'quizesInfo.$.Score':null,
+                'quizesInfo.$.inProgress': false,
+                'quizesInfo.$.isEnterd': false,
+                'quizesInfo.$.solvedAt': null,
+                'quizesInfo.$.endTime': null,
+              },
+              
+            }
+          ).then((result) => {
+           console.log(result);
+          }).catch((error) => {
+            res.send(error.message);
+          });
+     
+      return res.redirect('/student/exams');
+    }
+
+    // Update user's quiz info if score is 60% or above
     User.findOneAndUpdate(
       { _id: req.userData._id, 'quizesInfo._id': quizObjId },
       {
@@ -948,7 +964,7 @@ const quizFinish = async (req, res) => {
           'quizesInfo.$.inProgress': false,
           'quizesInfo.$.isEnterd': true,
           'quizesInfo.$.solvedAt': Date.now(),
-          'quizesInfo.$.endTime': null,
+          'quizesInfo.$.endTime': 0,
         },
         $inc: { totalScore: +score, totalQuestions: +quiz.questionsCount },
       }
@@ -987,7 +1003,7 @@ const review_Answers = async (req, res) => {
     const quizData = req.body;
 
     // Redirect if quiz or user info not found
-    if (quiz.isQuizActive || !quiz.permissionToShow) {
+    if (!quiz.permissionToShow) {
       return res.redirect('/student/exams');
     }
 
@@ -1022,7 +1038,10 @@ const review_Answers = async (req, res) => {
   }
 };
 
+
+
 // ================== END quiz  ====================== //
+
 
 const settings_get = async (req, res) => {
   try {
