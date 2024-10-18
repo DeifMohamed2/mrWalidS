@@ -929,31 +929,7 @@ const quizFinish = async (req, res) => {
       return res.redirect('/student/exams');
     }
 
-    // If the score is less than 60%, don't update quiz info, allow retry
-    if (scorePercentage < 60) {
-      console.log('Score is less than 60%');  
-          User.findOneAndUpdate(
-            { _id: req.userData._id, 'quizesInfo._id': quizObjId },
-            {
-              $set: {
-                
-                'quizesInfo.$.Score':null,
-                'quizesInfo.$.inProgress': false,
-                'quizesInfo.$.isEnterd': false,
-                'quizesInfo.$.solvedAt': null,
-                'quizesInfo.$.endTime': null,
-              },
-              
-            }
-          ).then((result) => {
-           console.log(result);
-          }).catch((error) => {
-            res.send(error.message);
-          });
-     
-      return res.redirect('/student/exams');
-    }
-
+ 
     // Update user's quiz info if score is 60% or above
     User.findOneAndUpdate(
       { _id: req.userData._id, 'quizesInfo._id': quizObjId },
